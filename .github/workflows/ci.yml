@@ -1,0 +1,26 @@
+# .github/workflows/ci.yml
+name: CI Pipeline # Nama workflow Anda yang akan terlihat di GitHub Actions
+
+on:
+  push: # Workflow ini akan berjalan saat ada event 'push'
+    branches:
+      - development # Spesifikkan branch 'development' agar hanya berjalan di branch ini
+
+jobs: # Mendefinisikan satu atau lebih job
+  build_and_test: # Nama job
+    runs-on: ubuntu-latest # Runner yang digunakan (VM Ubuntu terbaru)
+
+    steps: # Urutan langkah-langkah dalam job ini
+    - name: Checkout code # Langkah pertama: mengambil kode dari repositori
+      uses: actions/checkout@v3 # Menggunakan action resmi untuk checkout kode
+
+    - name: Set up Node.js # Langkah kedua: mengatur lingkungan Node.js
+      uses: actions/setup-node@v3 # Menggunakan action resmi untuk setup Node.js
+      with:
+        node-version: '18' # Menentukan versi Node.js yang akan digunakan
+
+    - name: Install dependencies # Langkah ketiga: menginstal dependensi aplikasi
+      run: npm install # Menjalankan perintah npm install
+
+    - name: Run unit tests # Langkah keempat: menjalankan unit test
+      run: npm test # Menjalankan perintah npm test (pastikan ada script 'test' di package.json)
